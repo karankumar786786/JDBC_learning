@@ -3,8 +3,7 @@ package me.oneorg.jdbc;
 import me.oneorg.jdbc.models.Student;
 import me.oneorg.jdbc.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -13,16 +12,17 @@ public class rest {
     @Autowired
     private StudentRepository studentRepository;
 
-    @GetMapping
-    public void update(){
-        studentRepository.update();
+
+    @PostMapping
+    public void create(@RequestBody Student student){
+        studentRepository.save(student);
     }
-    @GetMapping("/c")
-    public void create(){
-        studentRepository.create();
+    @GetMapping("/{id}")
+    public Student get(@PathVariable Long id){
+        return studentRepository.findById(id);
     }
-    @GetMapping("/g")
-    public List<Student> get(){
-        return studentRepository.getAll();
+    @DeleteMapping
+    public void delete(@PathVariable Long id){
+        studentRepository.remove(id);
     }
 }
